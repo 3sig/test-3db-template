@@ -2,36 +2,31 @@
   devDependenciesLocation: "orchestrator-deps",
   processes: [
     {
-      name: "httpServer",
-      source: "3sig/3suite-http-server",
+      name: "3db",
+      source: "3sig/3suite-db",
       sourceActions: [{ type: "chmod" }],
-      config: {port: 1238, directory: "node_modules"},
+      config: {
+        plugins: [
+            {
+                name: "template",
+                path: "3db/template.js",
+                config: {
+                    hello: "world"
+                }
+            }
+        ]
+      }
     },
     {
-      name: "browser",
-      source: "3sig/3suite-browser",
-      sourceActions: [
-        {
-          type: "unzip"
-        },
-        //{
-        //  type: "chmod",
-        //  file: "3suite-browser.app/Contents/MacOS/3suite-browser"
-        //}
-      ],
-      sourceExecOverride: "./3suite-browser.app/Contents/MacOS/3suite-browser",
-      loadConfig: "browser",
+        name: "template",
+        sourceType: "local",
+        localPath: "./build",
+        sourceFileType: "pattern-match",
+        sourceFilePattern: "main.js",
+        sourceExclude: true,
+        sourceActions: [
+          { type: "move", location: "./3db", filename: "template.js" }
+        ],
     },
-  ],
-
-  configs: {
-    browser: {
-      url: "http://localhost:1238/3lib-config/main.js",
-      fullscreen: false,
-      disableCursor: false,
-
-      windowWidth: 800,
-      windowHeight: 600,
-    }
-  }
+  ]
 }
