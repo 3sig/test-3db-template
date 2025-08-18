@@ -4,7 +4,7 @@
     "npm-run-all": "^4.1.5"
   },
   "scripts": {
-    "start": "bun run install-deps && bun build main.js --outdir build --format cjs && bun run run",
+    "start": "bun build main.js --outdir build --format cjs && bun run install-deps && bun run run",
     "install-deps": "orchestrator-install",
     "run": "cd orchestrator-deps && ./3suite-orchestrator*"
   }
